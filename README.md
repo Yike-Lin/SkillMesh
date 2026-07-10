@@ -1,241 +1,76 @@
 # SkillMesh
 
-> The plugin-first Skill OS for Codex.
+> 面向 Codex 的插件化 Skill OS
 
 <p align="left">
-  <a href="https://github.com/Yike-Lin/SkillMesh/stargazers"><img src="https://img.shields.io/github/stars/Yike-Lin/SkillMesh?style=flat-square&color=2563eb" alt="GitHub stars" /></a>
-  <a href="https://github.com/Yike-Lin/SkillMesh/commits/main"><img src="https://img.shields.io/github/last-commit/Yike-Lin/SkillMesh?style=flat-square&color=0ea5e9" alt="Last commit" /></a>
-  <img src="https://img.shields.io/badge/Codex-Plugin-1d4ed8?style=flat-square" alt="Codex Plugin" />
-  <img src="https://img.shields.io/badge/Status-Active%20Local%20Development-0f766e?style=flat-square" alt="Status" />
-  <img src="https://img.shields.io/badge/Distribution-Personal%20Marketplace-334155?style=flat-square" alt="Distribution" />
+  <a href="https://github.com/Yike-Lin/SkillMesh/stargazers"><img src="https://img.shields.io/github/stars/Yike-Lin/SkillMesh?style=flat-square&color=2563eb&label=%E6%98%9F%E6%A0%87" alt="星标" /></a>
+  <a href="https://github.com/Yike-Lin/SkillMesh/commits/main"><img src="https://img.shields.io/github/last-commit/Yike-Lin/SkillMesh?style=flat-square&color=0ea5e9&label=%E6%9C%80%E8%BF%91%E6%8F%90%E4%BA%A4" alt="最近提交" /></a>
+  <img src="https://img.shields.io/badge/Codex-%E6%8F%92%E4%BB%B6-1d4ed8?style=flat-square" alt="Codex 插件" />
+  <img src="https://img.shields.io/badge/%E7%8A%B6%E6%80%81-%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91%E4%B8%AD-0f766e?style=flat-square" alt="状态：本地开发中" />
+  <img src="https://img.shields.io/badge/%E5%88%86%E5%8F%91-%E4%B8%AA%E4%BA%BA%20Marketplace-334155?style=flat-square" alt="分发：个人 Marketplace" />
 </p>
 
-![SkillMesh Hero](./assets/readme-hero.svg)
+SkillMesh 是一个 **Codex 插件项目**。
 
-SkillMesh is a **Codex plugin project** that turns scattered `skills / plugins / MCP` into a usable in-thread operating layer:
+天下Skills如过江之鲫,SkillMesh专注在线程内解决一件事：把分散的 `skills / plugins / MCP` 组织成可推荐、可解释、可安装的能力层。
 
-- recommend the right capability for the current task
-- explain why it was recommended
-- audit what already exists in a repo
-- bridge local installation and dependency wiring
+## 它能做什么
 
-It is **not** a standalone dashboard anymore.  
-Visualization, graph views, and admin surfaces belong in a future companion app, not in this repository.
+- 推荐当前任务最合适的 `skill / plugin / MCP`
+- 解释为什么推荐它
+- 盘点仓库里已有的插件能力
+- 帮你把项目收敛成真正的 Codex 插件
+- 把本地安装、staging、验证流程串起来
 
-## At a Glance
+## 内置 Skills
 
-- plugin-first, thread-local, Codex-native
-- focused on recommendation, explanation, audit, and install bridging
-- clean repo with no leftover dashboard code
-- designed to become the control layer for `skills / plugins / MCP`
+- `skillmesh`：总入口，负责路由任务
+- `skillmesh-advisor`：推荐最合适的能力组合
+- `skill-inventory-audit`：盘点当前仓库的插件能力
+- `codex-plugin-architect`：把项目收敛成 Codex 插件结构
 
-## Why SkillMesh
+## 快速开始
 
-Most agent tooling stops at one of these layers:
-
-- a skill list
-- an installer
-- a recommendation panel
-- a graph view
-
-SkillMesh is opinionated about the missing loop:
-
-`discover -> understand -> install -> recommend -> execute -> improve`
-
-The goal is simple: make Codex threads aware of what they can use, when they should use it, and what is missing before execution starts.
-
-## How It Works
-
-```mermaid
-flowchart LR
-    A["Current thread or repo task"] --> B["SkillMesh router"]
-    B --> C["Recommend best skill / plugin / MCP"]
-    B --> D["Audit current repo capability"]
-    B --> E["Guide plugin architecture decisions"]
-    C --> F["Explain why it was recommended"]
-    D --> G["Show missing structure / dependency gaps"]
-    E --> H["Keep project plugin-first"]
-    F --> I["Stage plugin into local Codex"]
-    G --> I
-    H --> I
-```
-
-## What This Repo Is
-
-This repository is a **clean Codex plugin repo**.
-
-It currently contains:
-
-- a plugin manifest
-- plugin-level assets
-- thread-local skills
-- a local install/staging script
-- product and schema docs
-
-It does **not** contain the old frontend dashboard code anymore.
-
-## Core Capabilities
-
-### 1. Skill routing
-
-SkillMesh decides whether the current task needs:
-
-- recommendation
-- inventory audit
-- plugin architecture guidance
-
-### 2. In-thread recommendation
-
-SkillMesh can recommend the most relevant `skill / plugin / MCP` combination for the current repo or thread, and explain the reasoning.
-
-### 3. Repository capability audit
-
-SkillMesh can inspect what plugin-related structure already exists:
-
-- plugin manifest
-- installed skills
-- agent metadata
-- missing MCP or app mappings
-- installation gaps
-
-### 4. Local Codex plugin workflow
-
-SkillMesh includes a script to:
-
-- stage the plugin into the local Codex plugin directory
-- update the personal marketplace entry
-- rewrite the cachebuster version
-- validate the staged plugin
-
-## Example Prompts
-
-Use prompts like these in a new Codex thread:
-
-- `Use SkillMesh to audit what plugin-related capability already exists in this repo.`
-- `Recommend the best skills / plugins / MCP combination for the task I am doing now.`
-- `Help me turn this project into a real Codex plugin instead of a standalone app.`
-- `Show me what is missing before this plugin is safe to install and use.`
-
-## Repository Layout
-
-```text
-.codex-plugin/
-  plugin.json
-assets/
-  skillmesh.svg
-skills/
-  skillmesh/
-  skillmesh-advisor/
-  skill-inventory-audit/
-  codex-plugin-architect/
-scripts/
-  install-local-plugin.ps1
-docs/
-  PRD-lite.md
-  schema.sql
-```
-
-## Skills Included
-
-### `skillmesh`
-
-Top-level router skill.  
-Decides whether the task should go to recommendation, audit, or plugin-architecture guidance.
-
-### `skillmesh-advisor`
-
-Recommends the best `skills / plugins / MCP` combination for the current task.
-
-### `skill-inventory-audit`
-
-Audits the current repository for plugin-related capability and structure.
-
-### `codex-plugin-architect`
-
-Helps shape a project into a real Codex plugin instead of a standalone app.
-
-## Quick Start
-
-### 1. Validate the plugin
+### 1. 验证插件结构
 
 ```powershell
 python C:\Users\Administrator\.codex\skills\.system\plugin-creator\scripts\validate_plugin.py .
 ```
 
-### 2. Stage it into local Codex
+### 2. 安装到本地 Codex
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\install-local-plugin.ps1
 ```
 
-This script will:
+这个脚本会：
 
-1. prepare `%USERPROFILE%\plugins\skillmesh`
-2. update the personal marketplace entry
-3. rewrite the staged plugin version with a Codex cachebuster
-4. validate the staged plugin
-5. print Codex app deeplinks for viewing or sharing the plugin
+1. 准备 `%USERPROFILE%\plugins\skillmesh`
+2. 更新个人 marketplace 条目
+3. 写入新的 cachebuster 版本
+4. 验证 staged plugin
+5. 输出 Codex app deeplink
 
-### 3. Open it in Codex
+### 3. 在 Codex 中启用
 
-After staging, open the plugin in the Codex app and enable/install it there if your local CLI build does not expose plugin install commands.
+如果你当前的 `codex` CLI 还不支持 `plugin add`，直接用脚本输出的 Codex app deeplink 打开并启用即可。
 
-Then start a **new Codex thread** so the latest skills are picked up cleanly.
+建议之后新开一个 Codex 线程，确保最新 skills 被正确加载。
 
-## Who This Is For
+## 使用示例
 
-SkillMesh is built for:
+在 Codex 线程里直接这样说：
 
-- Codex power users with growing local skill catalogs
-- teams building internal skill bundles
-- plugin authors who want cleaner in-thread capability routing
-- agent workflow designers who care about recommendation quality and dependency clarity
+- `用 SkillMesh 盘点这个仓库里已经具备哪些插件能力`
+- `根据当前任务，推荐最合适的 skills / plugins / MCP 组合`
+- `帮我把这个项目收敛成真正的 Codex 插件`
+- `告诉我在安装或执行之前，还缺哪些前置条件`
 
-## Project Direction
-
-SkillMesh is intentionally split across two surfaces:
-
-- **this repo**: Codex plugin, thread-local reasoning, install bridge
-- **future companion surface**: graph view, analytics, bulk management, publishing workflows
-
-That boundary keeps the plugin focused and keeps the repo clean.
-
-## Roadmap
-
-- [x] turn SkillMesh into a real Codex plugin repo
-- [x] remove the old frontend dashboard code
-- [x] add local plugin staging and validation flow
-- [x] add thread-local routing and audit skills
-- [ ] add stronger repo-signal-based recommendation logic
-- [ ] add optional MCP bridge when runtime needs become real
-- [ ] publish a shareable marketplace-based distribution path
-
-## What Makes This Repo Worth Watching
-
-- it is solving a real gap between static skill catalogs and actual in-thread capability routing
-- it stays strict about plugin boundaries instead of drifting back into dashboard-first scope
-- it is already installable as a local Codex plugin
-- it is building toward a shareable marketplace distribution path instead of staying a one-off local hack
-
-## Philosophy
-
-SkillMesh does not want to be another static catalog.
-
-It wants to answer three higher-value questions inside the thread:
-
-1. what should run now
-2. why this is the right capability
-3. what is missing before execution is actually safe
-
-If that works well, SkillMesh becomes more than a plugin list. It becomes the control layer for how Codex uses capability.
-
-## Docs
+## 文档
 
 - [PRD-lite](./docs/PRD-lite.md)
 - [Schema draft](./docs/schema.sql)
 
-## Status
+## 当前状态
 
-Active local plugin development.
-
-If this project direction is interesting, star the repo and watch the next milestone: turning recommendation + audit into a genuinely useful in-thread Skill OS for Codex.
+SkillMesh 当前已经可以作为 **本地 Codex 插件** 使用，项目接下来会继续补强推荐逻辑和分发路径。
