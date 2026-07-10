@@ -1,0 +1,8 @@
+interface:
+  display_name: "SkillMesh 顾问"
+  short_description: "根据线程和仓库上下文推荐该用什么技能"
+  icon_small: "./assets/icon.svg"
+  brand_color: "#2563EB"
+  default_prompt: "根据当前线程和仓库，推荐最合适的 skills / plugins / MCP 组合，并解释原因。"
+policy:
+  allow_implicit_invocation: true
