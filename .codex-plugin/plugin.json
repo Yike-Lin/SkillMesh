@@ -1,0 +1,35 @@
+{
+  "name": "skillmesh",
+  "version": "0.1.0",
+  "description": "在 Codex 线程内推荐、解释并组织 skills、plugins 与 MCP 组合。",
+  "author": {
+    "name": "SkillMesh"
+  },
+  "skills": "./skills/",
+  "keywords": [
+    "codex",
+    "skills",
+    "plugin",
+    "recommendation",
+    "mcp"
+  ],
+  "interface": {
+    "displayName": "SkillMesh",
+    "shortDescription": "面向 Codex 的技能推荐与治理插件",
+    "longDescription": "SkillMesh 在当前线程里读取任务目标、仓库信号和已安装生态，给出该用什么 skill、plugin 或 MCP 的推荐组合，并解释原因、前置依赖与风险。",
+    "developerName": "SkillMesh",
+    "category": "开发工具",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "根据当前线程和仓库，推荐最合适的 skills / plugins / MCP 组合，并解释原因。",
+      "扫描这个仓库里已有的 skills、plugins 和 MCP 配置，指出缺失前置与冲突。",
+      "把这个任务拆成一条可执行的 SkillMesh 流程，并说明每一步该调用什么。"
+    ],
+    "composerIcon": "./assets/skillmesh.svg",
+    "logo": "./assets/skillmesh.svg",
+    "brandColor": "#2563EB"
+  }
+}
