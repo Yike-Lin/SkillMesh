@@ -3,4 +3,4 @@ interface:
   short_description: "进入 SkillMesh 插件的总入口"
   icon_small: "./assets/icon.svg"
   brand_color: "#2563EB"
-  default_prompt: "用 SkillMesh 判断当前任务该走推荐、盘点，还是 Codex 插件构建路径。"
+  default_prompt: "使用 $skillmesh 判断当前任务该走推荐、盘点、观测，还是 Codex 插件构建与发布路径。"
