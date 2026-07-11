@@ -294,17 +294,36 @@ def rule_matches(rule, task, signals):
     return reasons, bool(matched_keywords), len(matched_files) + len(matched_signals)
 
 
+def active_focuses(task, signals, rules):
+    focuses = []
+    for rule in rules:
+        selectors = rule.get("focus_selectors", [])
+        if not selectors:
+            continue
+        _, intent_matched, repo_match_count = rule_matches(rule, task, signals)
+        threshold = int(rule.get("focus_threshold", 2))
+        score = repo_match_count + (1 if intent_matched else 0)
+        if score >= threshold:
+            focuses.append({
+                "id": rule.get("id", ""),
+                "selectors": selectors,
+            })
+    return focuses
+
+
 def preflight(commands):
     return [{"command": command, "available": shutil.which(command) is not None} for command in sorted(set(commands))]
 
 
 def rank_skills(skills, task, signals, rules, limit):
     task_terms = terms(task)
+    focuses = active_focuses(task, signals, rules)
     ranked = []
     for skill in skills:
         score = 0.0
         reasons = []
         required = []
+        explicit_name = False
         metadata_terms = terms(" ".join([skill["slug"], skill["name"], skill["description"], skill["tags_json"]]))
         overlap = sorted(task_terms.intersection(metadata_terms))
         if overlap:
@@ -313,7 +332,9 @@ def rank_skills(skills, task, signals, rules, limit):
         slug_words = skill["slug"].replace("-", " ")
         if slug_words in task.lower() or skill["slug"] in task.lower():
             score += 35.0
+            explicit_name = True
             reasons.append("任务直接点名该能力")
+        focus_match = any(selector_matches(skill, focus["selectors"]) for focus in focuses)
         for rule in rules:
             rule_reasons, intent_matched, repo_match_count = rule_matches(rule, task, signals)
             if rule_reasons and selector_matches(skill, rule.get("skill_patterns", [])):
@@ -329,9 +350,17 @@ def rank_skills(skills, task, signals, rules, limit):
                 "id": skill["id"], "slug": skill["slug"], "name": skill["name"],
                 "score": round(score, 2), "reasons": list(dict.fromkeys(reasons)),
                 "path": skill["canonical_uri"], "trust": skill["trust_level"],
-                "preflight": preflight(required),
+                "preflight": preflight(required), "focus_match": focus_match,
+                "explicit_name": explicit_name,
             })
     ranked.sort(key=lambda item: (-item["score"], item["slug"]))
+    if focuses:
+        focused = [item for item in ranked if item["focus_match"] or item["explicit_name"]]
+        if focused:
+            ranked = focused
+    for item in ranked:
+        item.pop("focus_match", None)
+        item.pop("explicit_name", None)
     return ranked[:limit]
 
 

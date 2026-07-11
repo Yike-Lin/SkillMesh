@@ -15,19 +15,51 @@ $StageRoot = Join-Path $ReleaseRoot "$PluginName-$Version"
 $ZipPath = Join-Path $ReleaseRoot "$PluginName-$Version.zip"
 $HashPath = Join-Path $ReleaseRoot "$PluginName-$Version.sha256.txt"
 $Validator = Join-Path $PSScriptRoot "validate-release.py"
+$LocalPluginValidator = Join-Path $PSScriptRoot "validate-plugin-local.py"
 $PluginValidator = Join-Path $env:USERPROFILE ".codex\skills\.system\plugin-creator\scripts\validate_plugin.py"
 $BundledPython = Join-Path $env:USERPROFILE ".cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
 
-function Get-ValidatorEnvironment {
-    $yamlSitePackages = python -c "import inspect, os, yaml; print(os.path.dirname(os.path.dirname(inspect.getfile(yaml))))"
-    if ($LASTEXITCODE -ne 0) {
-        throw "Failed to locate PyYAML site-packages from system python."
+function Resolve-PluginValidationCommand {
+    if ((Test-Path -LiteralPath $PluginValidator) -and (Test-Path -LiteralPath $BundledPython)) {
+        $yamlSitePackages = python -c "import inspect, os, yaml; print(os.path.dirname(os.path.dirname(inspect.getfile(yaml))))"
+        if ($LASTEXITCODE -eq 0) {
+            return @{
+                FilePath = $BundledPython
+                Arguments = @($PluginValidator, $StageRoot)
+                Environment = @{
+                    PYTHONPATH = $yamlSitePackages.Trim()
+                }
+                Label = "official"
+            }
+        }
     }
 
     return @{
-        PythonExe = $BundledPython
-        PYTHONPATH = $yamlSitePackages.Trim()
+        FilePath = "python"
+        Arguments = @($LocalPluginValidator, $StageRoot)
+        Environment = $null
+        Label = "local"
     }
+}
+
+function Invoke-ValidationCommand {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$FilePath,
+        [Parameter(Mandatory = $true)]
+        [string[]]$Arguments,
+        [hashtable]$Environment
+    )
+
+    $originalPythonPath = $env:PYTHONPATH
+    if ($null -ne $Environment -and $Environment.ContainsKey("PYTHONPATH")) {
+        $env:PYTHONPATH = $Environment["PYTHONPATH"]
+    }
+
+    & $FilePath @Arguments | Out-Host
+    $exitCode = $LASTEXITCODE
+    $env:PYTHONPATH = $originalPythonPath
+    return $exitCode
 }
 
 function Assert-ReleaseStage {
@@ -83,13 +115,10 @@ Get-ChildItem -LiteralPath $StageRoot -Recurse -File | Where-Object { $_.Extensi
 
 Assert-ReleaseStage -StagePath $StageRoot
 
-$ValidatorEnv = Get-ValidatorEnvironment
-$originalPythonPath = $env:PYTHONPATH
-$env:PYTHONPATH = $ValidatorEnv.PYTHONPATH
-& $ValidatorEnv.PythonExe $PluginValidator $StageRoot
-$env:PYTHONPATH = $originalPythonPath
-if ($LASTEXITCODE -ne 0) {
-    throw "Official plugin validation failed."
+$PluginValidation = Resolve-PluginValidationCommand
+$PluginValidationExit = Invoke-ValidationCommand -FilePath $PluginValidation.FilePath -Arguments $PluginValidation.Arguments -Environment $PluginValidation.Environment
+if ($PluginValidationExit -ne 0) {
+    throw "$($PluginValidation.Label) plugin validation failed."
 }
 
 & python $Validator $StageRoot
