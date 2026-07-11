@@ -39,6 +39,9 @@ python .\scripts\skillmesh.py feedback <recommendation_id> <skill-slug> misfire 
 - 推荐组合，不只推荐单点
 - 把线程内插件和外部 app 的边界说清楚
 - 如果用户只是要结论，可以不展示命令，但推荐理由必须来自脚本输出或仓库证据
+- 只允许基于当前线程目标和当前工作区输出结论，不要引用别的任务、别的文档或别的 domain 里的建议
+- 如果当前工作区是 Codex 插件仓库，优先输出插件相关 skills、安装链路、发布链路和仓库盘点结果
+- 除非用户当前任务明确点名某个无关 skill，否则不要把 `nature-*`、文档写作或其他外部 domain 的能力混进插件仓库推荐里
 
 ## Output
 
