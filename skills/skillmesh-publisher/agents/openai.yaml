@@ -1,0 +1,7 @@
+interface:
+  display_name: "插件发布"
+  short_description: "校验、打包并准备分发 SkillMesh 插件"
+  default_prompt: "使用 $skillmesh-publisher 校验并构建这个 Codex 插件的发布产物。"
+  brand_color: "#7C3AED"
+policy:
+  allow_implicit_invocation: true
