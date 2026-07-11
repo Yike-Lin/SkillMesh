@@ -34,6 +34,16 @@ SkillMesh 现在不是大屏，不是独立 Web App。
   - 校验 release 目录和 zip
   - 生成 zip 和 SHA256
 
+## 流程图
+
+```mermaid
+flowchart LR
+    A["任务进入 Codex"] --> B["skillmesh-advisor<br/>推荐能力组合"]
+    B --> C["执行对应 skill / plugin / MCP"]
+    C --> D["skillmesh-observer<br/>记录反馈与结果"]
+    D --> E["skillmesh-publisher<br/>打包、校验、发布"]
+    E --> F["GitHub Actions release<br/>产出 zip 和 SHA256"]
+```
 
 ## 可扩展功能
 
@@ -71,6 +81,13 @@ powershell -ExecutionPolicy Bypass -File .\scripts\install-local-plugin.ps1
 - 校验 staged plugin
 - 输出 Codex app deeplink
 
+## 自动发布
+
+仓库已经带了 [`.github/workflows/release.yml`](./.github/workflows/release.yml)：
+
+- 平时可以手动触发，先跑测试和打包
+- 推送 `v*` tag 时会自动上传 zip 和 SHA256 到 GitHub Release
+
 ## 典型用法
 
 在 Codex 里直接说：
@@ -82,13 +99,13 @@ powershell -ExecutionPolicy Bypass -File .\scripts\install-local-plugin.ps1
 
 ## 仓库里这些文件在干什么
 
-- [`.codex-plugin/plugin.json`](D:/Code/SkillMesh/.codex-plugin/plugin.json)：插件清单
-- [`skills/`](D:/Code/SkillMesh/skills)：插件内置 skills
-- [`scripts/skillmesh.py`](D:/Code/SkillMesh/scripts/skillmesh.py)：推荐、反馈、观测、本地数据引擎
-- [`scripts/install-local-plugin.ps1`](D:/Code/SkillMesh/scripts/install-local-plugin.ps1)：本地安装脚本
-- [`scripts/validate-release.py`](D:/Code/SkillMesh/scripts/validate-release.py)：release 包校验
-- [`config/recommendation-rules.json`](D:/Code/SkillMesh/config/recommendation-rules.json)：推荐规则
-- [`docs/schema.sql`](D:/Code/SkillMesh/docs/schema.sql)：SQLite schema
+- [`.codex-plugin/plugin.json`](./.codex-plugin/plugin.json)：插件清单
+- [`skills/`](./skills)：插件内置 skills
+- [`scripts/skillmesh.py`](./scripts/skillmesh.py)：推荐、反馈、观测、本地数据引擎
+- [`scripts/install-local-plugin.ps1`](./scripts/install-local-plugin.ps1)：本地安装脚本
+- [`scripts/validate-release.py`](./scripts/validate-release.py)：release 包校验
+- [`config/recommendation-rules.json`](./config/recommendation-rules.json)：推荐规则
+- [`docs/schema.sql`](./docs/schema.sql)：SQLite schema
 
 ## 当前状态
 
