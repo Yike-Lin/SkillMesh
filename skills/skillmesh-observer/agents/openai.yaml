@@ -1,0 +1,7 @@
+interface:
+  display_name: "观测记录"
+  short_description: "记录推荐反馈、执行结果与统计报告"
+  default_prompt: "使用 $skillmesh-observer 记录这次推荐或执行的结果，并输出当前统计。"
+  brand_color: "#0891B2"
+policy:
+  allow_implicit_invocation: true
