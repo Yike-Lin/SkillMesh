@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "id": "codex-plugin",
+      "keywords": ["Codex 插件", "plugin", "marketplace", "插件分发", "插件安装"],
+      "file_patterns": [".codex-plugin/plugin.json", "skills/*/SKILL.md"],
+      "repo_signals": ["plugin.json"],
+      "skill_patterns": ["plugin-creator", "plugin-architect", "skillmesh"],
+      "requires": ["python"],
+      "weight": 32
+    },
+    {
+      "id": "skill-authoring",
+      "keywords": ["创建 skill", "新技能", "SKILL.md", "技能开发", "更新 skill"],
+      "file_patterns": ["skills/*/SKILL.md"],
+      "skill_patterns": ["skill-creator", "skillmesh-advisor"],
+      "requires": ["python"],
+      "weight": 30
+    },
+    {
+      "id": "github-workflow",
+      "keywords": ["GitHub", "PR", "pull request", "issue", "CI", "Actions", "发布"],
+      "file_patterns": [".github/workflows/*", ".git/config"],
+      "skill_patterns": ["github", "gh-", "yeet"],
+      "requires": ["git", "gh"],
+      "weight": 26
+    },
+    {
+      "id": "security",
+      "keywords": ["安全", "漏洞", "威胁", "security", "vulnerability", "CVE"],
+      "file_patterns": ["**/Dockerfile", "**/package-lock.json", "**/requirements*.txt"],
+      "skill_patterns": ["security", "threat-model", "vulnerability"],
+      "requires": ["git"],
+      "weight": 28
+    },
+    {
+      "id": "frontend",
+      "keywords": ["前端", "页面", "组件", "UI", "React", "Vue", "Figma"],
+      "file_patterns": ["**/*.tsx", "**/*.jsx", "**/*.vue", "package.json"],
+      "repo_signals": ["TypeScript", "JavaScript", "react", "vue", "vite", "next"],
+      "skill_patterns": ["figma", "playwright", "browser", "frontend"],
+      "requires": ["node"],
+      "weight": 24
+    },
+    {
+      "id": "python",
+      "keywords": ["Python", "pytest", "脚本", "数据处理"],
+      "file_patterns": ["**/*.py", "pyproject.toml", "requirements.txt"],
+      "repo_signals": ["Python"],
+      "skill_patterns": ["python", "data", "test"],
+      "requires": ["python"],
+      "weight": 20
+    },
+    {
+      "id": "documents",
+      "keywords": ["PDF", "Word", "PPT", "Excel", "文档", "表格", "演示文稿"],
+      "file_patterns": ["**/*.pdf", "**/*.docx", "**/*.pptx", "**/*.xlsx"],
+      "skill_patterns": ["pdf", "document", "presentation", "spreadsheet"],
+      "requires": ["python"],
+      "weight": 28
+    },
+    {
+      "id": "inventory",
+      "keywords": ["盘点", "有哪些 skill", "依赖", "能力清单", "MCP", "app 映射"],
+      "file_patterns": [".mcp.json", ".app.json", "skills/*/SKILL.md"],
+      "skill_patterns": ["inventory", "skillmesh"],
+      "requires": ["python"],
+      "weight": 30
+    }
+  ]
+}
