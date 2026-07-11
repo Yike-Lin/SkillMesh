@@ -3,6 +3,6 @@ interface:
   short_description: "根据线程和仓库上下文推荐该用什么技能"
   icon_small: "./assets/icon.svg"
   brand_color: "#2563EB"
-  default_prompt: "根据当前线程和仓库，推荐最合适的 skills / plugins / MCP 组合，并解释原因。"
+  default_prompt: "使用 $skillmesh-advisor 根据当前线程和仓库推荐最合适的 skills、plugins 与 MCP 组合。"
 policy:
   allow_implicit_invocation: true
