@@ -2,6 +2,9 @@
   "name": "skillmesh",
   "version": "0.1.0",
   "description": "在 Codex 线程内推荐、解释并组织 skills、plugins 与 MCP 组合。",
+  "license": "MIT",
+  "homepage": "https://github.com/Yike-Lin/SkillMesh",
+  "repository": "https://github.com/Yike-Lin/SkillMesh",
   "author": {
     "name": "SkillMesh"
   },
