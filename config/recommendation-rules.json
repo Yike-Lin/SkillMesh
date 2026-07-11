@@ -2,11 +2,46 @@
   "version": 1,
   "rules": [
     {
+      "id": "plugin-repo-focus",
+      "keywords": ["Codex", "插件", "plugin", "skills", "MCP", "仓库", "repo", "盘点", "发布", "安装"],
+      "file_patterns": [".codex-plugin/plugin.json", "skills/*/SKILL.md", "scripts/install-local-plugin.ps1", "scripts/build-release.ps1"],
+      "repo_signals": ["plugin.json"],
+      "skill_patterns": ["skillmesh", "advisor", "inventory", "publisher", "observer", "architect", "plugin", "github", "gh-"],
+      "focus_selectors": ["skillmesh", "advisor", "inventory", "publisher", "observer", "architect", "plugin", "github", "gh-"],
+      "focus_threshold": 2,
+      "requires": ["python", "git"],
+      "weight": 42
+    },
+    {
       "id": "codex-plugin",
       "keywords": ["Codex 插件", "plugin", "marketplace", "插件分发", "插件安装"],
-      "file_patterns": [".codex-plugin/plugin.json", "skills/*/SKILL.md"],
+      "file_patterns": [".codex-plugin/plugin.json", "skills/*/SKILL.md", "scripts/install-local-plugin.ps1"],
       "repo_signals": ["plugin.json"],
       "skill_patterns": ["plugin-creator", "plugin-architect", "skillmesh"],
+      "requires": ["python"],
+      "weight": 32
+    },
+    {
+      "id": "plugin-release",
+      "keywords": ["发布", "release", "打包", "SHA256", "GitHub Release", "workflow", "release.yml"],
+      "file_patterns": ["scripts/build-release.ps1", ".github/workflows/*", ".codex-plugin/plugin.json"],
+      "skill_patterns": ["skillmesh-publisher", "github", "plugin"],
+      "requires": ["python", "git", "gh"],
+      "weight": 34
+    },
+    {
+      "id": "plugin-install",
+      "keywords": ["本地安装", "重新安装", "plugin add", "启用插件", "个人 marketplace"],
+      "file_patterns": ["scripts/install-local-plugin.ps1", ".codex-plugin/plugin.json"],
+      "skill_patterns": ["skillmesh-publisher", "skillmesh", "plugin"],
+      "requires": ["python", "git"],
+      "weight": 30
+    },
+    {
+      "id": "observability",
+      "keywords": ["统计", "观测", "反馈", "误判", "report", "helpful", "misfire"],
+      "file_patterns": ["docs/schema.sql", "scripts/skillmesh.py"],
+      "skill_patterns": ["skillmesh-observer", "skillmesh"],
       "requires": ["python"],
       "weight": 32
     },
@@ -22,7 +57,7 @@
       "id": "github-workflow",
       "keywords": ["GitHub", "PR", "pull request", "issue", "CI", "Actions", "发布"],
       "file_patterns": [".github/workflows/*", ".git/config"],
-      "skill_patterns": ["github", "gh-", "yeet"],
+      "skill_patterns": ["github", "gh-", "yeet", "skillmesh-publisher"],
       "requires": ["git", "gh"],
       "weight": 26
     },
@@ -63,7 +98,7 @@
     {
       "id": "inventory",
       "keywords": ["盘点", "有哪些 skill", "依赖", "能力清单", "MCP", "app 映射"],
-      "file_patterns": [".mcp.json", ".app.json", "skills/*/SKILL.md"],
+      "file_patterns": [".mcp.json", ".app.json", "skills/*/SKILL.md", ".codex-plugin/plugin.json"],
       "skill_patterns": ["inventory", "skillmesh"],
       "requires": ["python"],
       "weight": 30
