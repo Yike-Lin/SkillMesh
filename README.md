@@ -97,6 +97,11 @@ powershell -ExecutionPolicy Bypass -File .\scripts\install-local-plugin.ps1
 - `使用 $skillmesh-observer 看一下这个仓库最近的推荐和运行统计`
 - `使用 $skillmesh-publisher 校验并构建这个插件的发布产物`
 
+## 验收清单
+
+- 最小线程验收清单：[`docs/acceptance-checklist.md`](./docs/acceptance-checklist.md)
+- 发布前检查：跑完清单里的 4 句，再执行本地测试和打包命令
+
 ## 仓库里这些文件在干什么
 
 - [`.codex-plugin/plugin.json`](./.codex-plugin/plugin.json)：插件清单
