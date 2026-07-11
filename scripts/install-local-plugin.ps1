@@ -254,7 +254,7 @@ Invoke-PythonScript -PythonExe $HelperPython -ScriptPath $CreatePluginScript -Ar
     "--force"
 )
 
-foreach ($item in @(".codex-plugin", "skills", "assets", "scripts", "README.md", "docs")) {
+foreach ($item in @(".codex-plugin", "skills", "assets", "scripts", "config", "README.md", "docs")) {
     Copy-PluginItem -Name $item
 }
 
