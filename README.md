@@ -1,76 +1,95 @@
 # SkillMesh
 
-> 面向 Codex 的插件化 Skill OS
+> 把分散的 `skills / plugins / MCP` 变成 Codex 里可推荐、可观测、可分发的插件能力层。
 
 <p align="left">
   <a href="https://github.com/Yike-Lin/SkillMesh/stargazers"><img src="https://img.shields.io/github/stars/Yike-Lin/SkillMesh?style=flat-square&color=2563eb&label=%E6%98%9F%E6%A0%87" alt="星标" /></a>
   <a href="https://github.com/Yike-Lin/SkillMesh/commits/main"><img src="https://img.shields.io/github/last-commit/Yike-Lin/SkillMesh?style=flat-square&color=0ea5e9&label=%E6%9C%80%E8%BF%91%E6%8F%90%E4%BA%A4" alt="最近提交" /></a>
   <img src="https://img.shields.io/badge/Codex-%E6%8F%92%E4%BB%B6-1d4ed8?style=flat-square" alt="Codex 插件" />
-  <img src="https://img.shields.io/badge/%E7%8A%B6%E6%80%81-%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91%E4%B8%AD-0f766e?style=flat-square" alt="状态：本地开发中" />
-  <img src="https://img.shields.io/badge/%E5%88%86%E5%8F%91-%E4%B8%AA%E4%BA%BA%20Marketplace-334155?style=flat-square" alt="分发：个人 Marketplace" />
+  <img src="https://img.shields.io/badge/%E7%8A%B6%E6%80%81-%E6%9C%AC%E5%9C%B0%E5%8F%AF%E7%94%A8-0f766e?style=flat-square" alt="状态：本地可用" />
 </p>
 
-SkillMesh 是一个 **Codex 插件项目**。
+SkillMesh 现在不是大屏，不是独立 Web App。
 
-天下Skills如过江之鲫,SkillMesh专注在线程内解决一件事：把分散的 `skills / plugins / MCP` 组织成可推荐、可解释、可安装的能力层。
+它就是一个 **Codex 插件工程**，专门解决三件事：
 
-## 它能做什么
+- 当前任务该用什么 `skill / plugin / MCP`
+- 这些推荐到底有没有用
+- 这个插件怎么校验、安装、打包、分发
 
-- 推荐当前任务最合适的 `skill / plugin / MCP`
-- 解释为什么推荐它
-- 盘点仓库里已有的插件能力
-- 帮你把项目收敛成真正的 Codex 插件
-- 把本地安装、staging、验证流程串起来
+## 已实现功能
 
-## 内置 Skills
+- `skillmesh-advisor`
+  - 按任务、仓库文件、语言和框架做推荐排序
+  - 给出推荐原因和依赖检查
+- `skill-inventory-audit`
+  - 盘点仓库里的 skills、插件结构、MCP / app 缺口
+- `skillmesh-observer`
+  - 记录推荐反馈
+  - 记录 skill 执行结果
+  - 输出统计报告
+- `skillmesh-publisher`
+  - 做本地插件安装
+  - 跑官方插件校验
+  - 校验 release 目录和 zip
+  - 生成 zip 和 SHA256
 
-- `skillmesh`：总入口，负责路由任务
-- `skillmesh-advisor`：推荐最合适的能力组合
-- `skill-inventory-audit`：盘点当前仓库的插件能力
-- `codex-plugin-architect`：把项目收敛成 Codex 插件结构
 
-## 快速开始
+## 可扩展功能
 
-### 1. 验证插件结构
+- 推荐规则继续增强：
+  - 更细的任务意图识别
+  - 更强的已安装生态感知
+- 数据层继续增强：
+  - skill 版本
+  - 安装目标
+  - flow 模板
+- 分发层继续增强：
+  - GitHub Release 自动化
+  - 发布校验流水线
+  - 公开 marketplace 适配
+
+## 快速安装
+
+先校验：
 
 ```powershell
 python C:\Users\Administrator\.codex\skills\.system\plugin-creator\scripts\validate_plugin.py .
 ```
 
-### 2. 安装到本地 Codex
+再安装到本地 Codex：
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\install-local-plugin.ps1
 ```
 
-这个脚本会：
+安装脚本会自动：
 
-1. 准备 `%USERPROFILE%\plugins\skillmesh`
-2. 更新个人 marketplace 条目
-3. 写入新的 cachebuster 版本
-4. 验证 staged plugin
-5. 输出 Codex app deeplink
+- 同步插件到 `%USERPROFILE%\plugins\skillmesh`
+- 更新个人 marketplace 条目
+- 写入 cachebuster 版本
+- 校验 staged plugin
+- 输出 Codex app deeplink
 
-### 3. 在 Codex 中启用
+## 典型用法
 
-如果你当前的 `codex` CLI 还不支持 `plugin add`，直接用脚本输出的 Codex app deeplink 打开并启用即可。
+在 Codex 里直接说：
 
-建议之后新开一个 Codex 线程，确保最新 skills 被正确加载。
+- `使用 $skillmesh-advisor 推荐这个任务该用什么 skills / plugins / MCP`
+- `使用 $skill-inventory-audit 盘点当前仓库里的插件能力`
+- `使用 $skillmesh-observer 看一下这个仓库最近的推荐和运行统计`
+- `使用 $skillmesh-publisher 校验并构建这个插件的发布产物`
 
-## 使用示例
+## 仓库里这些文件在干什么
 
-在 Codex 线程里直接这样说：
-
-- `用 SkillMesh 盘点这个仓库里已经具备哪些插件能力`
-- `根据当前任务，推荐最合适的 skills / plugins / MCP 组合`
-- `帮我把这个项目收敛成真正的 Codex 插件`
-- `告诉我在安装或执行之前，还缺哪些前置条件`
-
-## 文档
-
-- [PRD-lite](./docs/PRD-lite.md)
-- [Schema draft](./docs/schema.sql)
+- [`.codex-plugin/plugin.json`](D:/Code/SkillMesh/.codex-plugin/plugin.json)：插件清单
+- [`skills/`](D:/Code/SkillMesh/skills)：插件内置 skills
+- [`scripts/skillmesh.py`](D:/Code/SkillMesh/scripts/skillmesh.py)：推荐、反馈、观测、本地数据引擎
+- [`scripts/install-local-plugin.ps1`](D:/Code/SkillMesh/scripts/install-local-plugin.ps1)：本地安装脚本
+- [`scripts/validate-release.py`](D:/Code/SkillMesh/scripts/validate-release.py)：release 包校验
+- [`config/recommendation-rules.json`](D:/Code/SkillMesh/config/recommendation-rules.json)：推荐规则
+- [`docs/schema.sql`](D:/Code/SkillMesh/docs/schema.sql)：SQLite schema
 
 ## 当前状态
 
-SkillMesh 当前已经可以作为 **本地 Codex 插件** 使用，项目接下来会继续补强推荐逻辑和分发路径。
+SkillMesh 目前已经是一个可以本地安装、可推荐、可观测、可继续扩展分发能力的 Codex 插件。
