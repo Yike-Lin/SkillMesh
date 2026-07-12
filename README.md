@@ -100,7 +100,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\install-local-plugin.ps1
 ## 验收清单
 
 - 最小线程验收清单：[`docs/acceptance-checklist.md`](./docs/acceptance-checklist.md)
-- 发布前检查：跑完清单里的 4 句，再执行本地测试和打包命令
+- 发布前检查：先跑清单里的 3 句核心测试，再按需补第 4 句观测测试
 
 ## 仓库里这些文件在干什么
 

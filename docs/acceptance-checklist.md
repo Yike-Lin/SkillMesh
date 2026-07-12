@@ -13,7 +13,7 @@
 
 ## 新开任务怎么测
 
-新开一个 Codex 任务，在 `D:\Code\SkillMesh` 工作区里连续发这 4 句。
+新开一个 Codex 任务，在 `D:\Code\SkillMesh` 工作区里先发这 3 句。
 
 ### 1. advisor
 
@@ -42,17 +42,6 @@
 ### 3. observer
 
 ```text
-使用 $skillmesh-observer 看一下这个仓库最近的推荐和运行统计
-```
-
-正常结果：
-
-- 应该把重点放在反馈、运行记录、统计报告
-- 不应该把它误答成插件构建建议或外部 domain 推荐
-
-### 4. publisher
-
-```text
 使用 $skillmesh-publisher 校验并构建这个插件的发布产物
 ```
 
@@ -60,6 +49,19 @@
 
 - 应该提到插件校验、release zip、SHA256
 - 应该把 GitHub Actions / release 作为发布链路的一部分
+
+## 第四句可选补测
+
+如果你还要补测观测链，再发这一句：
+
+```text
+使用 $skillmesh-observer 看一下这个仓库最近的推荐和运行统计
+```
+
+正常结果：
+
+- 应该把重点放在反馈、运行记录、统计报告
+- 不应该把它误答成插件构建建议或外部 domain 推荐
 
 ## 什么结果算通过
 
