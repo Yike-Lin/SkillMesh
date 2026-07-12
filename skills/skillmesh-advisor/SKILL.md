@@ -47,6 +47,9 @@ python .\scripts\skillmesh.py feedback <recommendation_id> <skill-slug> misfire 
 
 默认只输出四段，且每段只出现一次，不要重复标题，不要混入别的任务背景：
 
+- 标题必须严格使用：`推荐组合`、`为什么是它`、`前置与风险`、`下一步`
+- 不要把标题缩成“为什么”或“风险”
+
 ### 推荐组合
 
 - 列出 1-3 个最合适的 skill、plugin 或 MCP
