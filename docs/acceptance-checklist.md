@@ -13,7 +13,7 @@
 
 ## 新开任务怎么测
 
-新开一个 Codex 任务，在 `D:\Code\SkillMesh` 工作区里先发这 3 句。
+新开一个 Codex 任务，在 `D:\Code\SkillMesh` 工作区里先发这 3 句核心测试。
 
 ### 1. advisor
 
@@ -39,7 +39,7 @@
 - 应该指出当前仓库是 Codex 插件仓库
 - 应该基于 `.codex-plugin/plugin.json`、`skills/`、`scripts/` 给出判断
 
-### 3. observer
+### 3. publisher
 
 ```text
 使用 $skillmesh-publisher 校验并构建这个插件的发布产物
@@ -50,9 +50,9 @@
 - 应该提到插件校验、release zip、SHA256
 - 应该把 GitHub Actions / release 作为发布链路的一部分
 
-## 第四句可选补测
+## 第四句补测
 
-如果你还要补测观测链，再发这一句：
+真实线程验收如果要覆盖完整四条链路，再补这一句：
 
 ```text
 使用 $skillmesh-observer 看一下这个仓库最近的推荐和运行统计
